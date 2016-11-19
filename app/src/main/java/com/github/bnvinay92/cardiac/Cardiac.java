@@ -10,10 +10,26 @@ import timber.log.Timber;
 
 public class Cardiac extends Application {
 
+    private CardiacComponent component;
+
     @Override public void onCreate() {
         super.onCreate();
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+        initComponent();
+    }
+
+    public CardiacComponent component() {
+        if (component == null) {
+            initComponent();
+        }
+        return component;
+    }
+
+    private void initComponent() {
+        component = DaggerCardiacComponent.builder()
+                .cardiacModule(new CardiacModule(this))
+                .build();
     }
 }
