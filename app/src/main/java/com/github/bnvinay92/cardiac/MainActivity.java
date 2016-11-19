@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.github.bnvinay92.cardiac.databinding.ActivityMainBinding;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements CardiacView {
     }
 
     @Override public void showResults(HeartRisk risk) {
-        String statusText = String.format("%.2f %%, as of %s", risk.risk(), risk.timestamp());
+        String statusText = String.format("%.2f %%, as of %s", risk.risk(), new Date(risk.timestamp()));
         binding.status.setText(statusText);
     }
 }
