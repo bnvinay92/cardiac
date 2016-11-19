@@ -16,7 +16,6 @@ import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -65,7 +64,7 @@ public class CardiacPresenterTest {
     @Test
     public void whenFormCompleteThenShowCompleteAndSaveResults() {
         CardiacForm form = CardiacForm.create(R.id.gender_yes, R.id.age_no, R.id.diabetes_yes, R.id.asthma_yes);
-        HeartRisk risk = HeartRisk.create(75.0D, new Date(), form);
+        HeartRisk risk = HeartRisk.FACTORY.creator.create(new Date().getTime(), 75);
         when(heartRiskCalculator.execute(form)).thenReturn(Single.just(risk));
         when(sessionRepository.save(risk)).thenReturn(Completable.complete());
         presenter.attachView(view);

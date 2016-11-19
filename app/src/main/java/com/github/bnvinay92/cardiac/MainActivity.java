@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CardiacView {
 
     ActivityMainBinding binding;
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onStart() {
         super.onStart();
-//        cardiacPresenter.attachView(this);
+        cardiacPresenter.attachView(this);
     }
 
     @Override protected void onStop() {
@@ -33,4 +33,28 @@ public class MainActivity extends AppCompatActivity {
         cardiacPresenter.detachView(isFinishing());
     }
 
+    @Override public Observable<Integer> age() {
+        return RxRadioGroup.checkedChanges(binding.age);
+    }
+
+    @Override public Observable<Integer> gender() {
+        return RxRadioGroup.checkedChanges(binding.gender);
+    }
+
+    @Override public Observable<Integer> diabetes() {
+        return RxRadioGroup.checkedChanges(binding.diabetes);
+    }
+
+    @Override public Observable<Integer> asthma() {
+        return RxRadioGroup.checkedChanges(binding.asthma);
+    }
+
+    @Override public void showFormIncomplete() {
+        binding.status.setText(R.string.incomplete_form);
+    }
+
+    @Override public void showResults(HeartRisk risk) {
+        String statusText = String.format("%.2f %%, as of %s", risk.risk(), risk.timestamp());
+        binding.status.setText(statusText);
+    }
 }

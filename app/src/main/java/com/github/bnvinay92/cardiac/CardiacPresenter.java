@@ -37,10 +37,10 @@ public class CardiacPresenter {
                 .filter(CardiacForm::isComplete)
                 .flatMapSingle(heartRiskCalculator::execute)
                 .subscribe(risk -> {
-                    sessionRepository.save(risk);
-                    view.showResults(risk);
-                },
-                        throwable -> Timber.d(throwable,throwable.getMessage()));
+                            sessionRepository.save(risk).subscribe();
+                            view.showResults(risk);
+                        },
+                        throwable -> Timber.d(throwable, throwable.getMessage()));
     }
 
     public void detachView(boolean finishing) {

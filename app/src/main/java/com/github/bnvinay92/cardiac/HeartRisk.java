@@ -1,20 +1,19 @@
 package com.github.bnvinay92.cardiac;
 
+import android.support.annotation.NonNull;
+
 import com.google.auto.value.AutoValue;
+import com.squareup.sqldelight.RowMapper;
 
 import java.util.Date;
+
 
 /**
  * Created by Vinay on 19/11/16.
  */
 @AutoValue
-public abstract class HeartRisk {
+public abstract class HeartRisk implements HeartRiskModel{
+    public static final Factory<HeartRisk> FACTORY = new Factory<>(AutoValue_HeartRisk::new);
 
-    public abstract double risk();
-    public abstract Date date();
-    public abstract CardiacForm form();
-
-    public static HeartRisk create(double risk, Date date, CardiacForm form) {
-        return new AutoValue_HeartRisk(risk,date,form);
-    }
+    public static final RowMapper<HeartRisk> SELECT_ALL_MAPPER = FACTORY.select_allMapper();
 }

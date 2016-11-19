@@ -1,0 +1,14 @@
+import java.util.Date;
+
+CREATE TABLE heart_risk (
+  timestamp INTEGER NOT NULL PRIMARY KEY,
+  risk REAL NOT NULL
+);
+-- Further SQL statements are proceeded by an identifier.
+select_all:
+SELECT *
+FROM heart_risk;
+
+insert_row:
+INSERT INTO heart_risk(timestamp, risk)
+VALUES (?, ?);
