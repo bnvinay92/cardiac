@@ -12,6 +12,10 @@ public abstract class CardiacForm {
     public abstract int diabetes();
     public abstract int asthma();
 
+    public boolean isComplete() {
+        return !(gender() == -1 || age() == -1 || diabetes() == -1 || asthma() == -1);
+    }
+
     public static CardiacForm create(int gender, int age, int diabetes, int asthma) {
         return new AutoValue_CardiacForm(gender, age, diabetes, asthma);
     }

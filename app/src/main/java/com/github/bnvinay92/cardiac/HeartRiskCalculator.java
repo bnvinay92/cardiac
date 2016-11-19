@@ -1,5 +1,7 @@
 package com.github.bnvinay92.cardiac;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import io.reactivex.Single;
@@ -12,6 +14,6 @@ public class HeartRiskCalculator {
     }
 
     public Single<HeartRisk> execute(CardiacForm form) {
-        return null;
+        return Single.just(HeartRisk.create(78, new Date(), form));
     }
 }

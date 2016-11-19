@@ -6,4 +6,5 @@
     <string name="question_four">Do you have problems breathing?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="incomplete_form">Complete the form to know your risk level</string>
 </resources>

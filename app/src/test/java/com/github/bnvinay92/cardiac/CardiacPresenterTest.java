@@ -1,6 +1,7 @@
 package com.github.bnvinay92.cardiac;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -15,6 +16,7 @@ import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,9 +38,11 @@ public class CardiacPresenterTest {
     PublishSubject<Integer> diabetes = PublishSubject.create();
     PublishSubject<Integer> asthma = PublishSubject.create();
 
+    @Rule public RxSchedulersOverrideRule rxSchedulersOverrideRule = new RxSchedulersOverrideRule();
+
     @Before
     public void setUp() throws Exception {
-        presenter = new CardiacPresenter();
+        presenter = new CardiacPresenter(sessionRepository, heartRiskCalculator);
         when(view.gender()).thenReturn(gender);
         when(view.age()).thenReturn(age);
         when(view.diabetes()).thenReturn(diabetes);
@@ -60,7 +64,7 @@ public class CardiacPresenterTest {
 
     @Test
     public void whenFormCompleteThenShowCompleteAndSaveResults() {
-        CardiacForm form = CardiacForm.create(1, 0, 1, 1);
+        CardiacForm form = CardiacForm.create(R.id.gender_yes, R.id.age_no, R.id.diabetes_yes, R.id.asthma_yes);
         HeartRisk risk = HeartRisk.create(75.0D, new Date(), form);
         when(heartRiskCalculator.execute(form)).thenReturn(Single.just(risk));
         when(sessionRepository.save(risk)).thenReturn(Completable.complete());
@@ -69,7 +73,7 @@ public class CardiacPresenterTest {
         age.onNext(R.id.age_no);
         diabetes.onNext(R.id.diabetes_yes);
         asthma.onNext(R.id.asthma_yes);
-        InOrder inOrder = Mockito.inOrder(view, sessionRepository);
+        InOrder inOrder = Mockito.inOrder(view, sessionRepository, heartRiskCalculator);
         inOrder.verify(sessionRepository, times(1)).save(risk);
         inOrder.verify(view, times(1)).showResults(risk);
         inOrder.verifyNoMoreInteractions();
