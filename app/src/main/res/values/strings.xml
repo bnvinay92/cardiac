@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cardiac</string>
+    <string name="question_one">Are you a man?</string>
+    <string name="question_two">Are you older than 30?</string>
+    <string name="question_three">Are you diabetic?</string>
+    <string name="question_four">Do you have problems breathing?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>
